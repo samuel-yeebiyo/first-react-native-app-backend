@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended:false}));
 
 //connect to my mongoDB database
 mong.connect(process.env.connection_key, {useNewUrlParser: true, userUnifiedTopolgy: true}, () =>{
-    console.log("Database connected!")
+    console.log("Database connected!");
 })
 
 
