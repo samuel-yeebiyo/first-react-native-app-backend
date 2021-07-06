@@ -18,10 +18,7 @@ const adminSchema = mongoose.Schema({
         type:String,
         default:'ADMIN'
     },
-    picture:{
-        type:String,
-        required:true
-    }
+   //Think about adding a picture
 })
 
 module.exports = mongoose.model('Admin', adminSchema);

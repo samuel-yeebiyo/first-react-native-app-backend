@@ -23,10 +23,7 @@ const userSchema = mongoose.Schema({
         type:String,
         default:'BASIC'
     },
-    picture:{
-        type:String,
-        required:true
-    }
+    //Think about adding picture identification
 })
 
 module.exports = mongoose.model('User', userSchema);
