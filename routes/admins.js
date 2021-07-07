@@ -4,11 +4,12 @@ const bcrypt = require('bcrypt');
 
 
 
-const Admin = require('../models/admin');
+const User = require('../models/user');
 
 router.post('/', async (req,res)=>{
+    console.log("Called post to users")
 
-    let exist = await Admin.findOne({passport: req.body.id})
+    let exist = await User.findOne({identity: req.body.id})
     if(exist == null){
         try{
             //hash password
@@ -16,12 +17,13 @@ router.post('/', async (req,res)=>{
             const hashedPass = await bcrypt.hash(req.body.password, salt);
             
             //create new admin user with hashed password
-            let admin = new Admin({
+            let admin = new User({
                 identity: req.body.id,
-                password:hashedPass
+                password:hashedPass,
+                auth:"ADMIN"
                 //think about adding pictures
             })
-            console.log("Admin user created successfully!")
+            console.log("Admin created successfully!")
             console.log(admin)
 
             //save admin user to database

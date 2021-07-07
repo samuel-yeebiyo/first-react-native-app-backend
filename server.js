@@ -17,6 +17,7 @@ mong.connect(process.env.connection_key, {useNewUrlParser: true, userUnifiedTopo
 //route configurations
 const userRouter = require('./routes/users');
 const adminRouter = require('./routes/admins')
+const loginRouter = require('./routes/loginRouter')
 
 //server routes
 app.use('/users', userRouter);

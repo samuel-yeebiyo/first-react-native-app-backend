@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    name:{
+    identity:{
         type:String,
         required:true,
         unique:true
     },
     passport:{
         type:String,
-        required:true,
         unique:true
     },
     password:{

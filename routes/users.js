@@ -7,8 +7,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 router.post('/', async (req,res)=>{
+    console.log("Called post to users")
 
-    let exist = await User.findOne({passport: req.body.passnumber})
+    let exist = await User.findOne({passport: req.body.passport})
     if(exist == null){
         try{
             //hash password
@@ -17,7 +18,7 @@ router.post('/', async (req,res)=>{
             
             //create new user with hashed password
             let user = new User({
-                name: req.body.name,
+                identity: req.body.name,
                 passport: req.body.passport,
                 password:hashedPass
                 //think about adding pictures
@@ -27,14 +28,16 @@ router.post('/', async (req,res)=>{
 
             //save user to database
             try{
+                console.log("Trying to save..")
                 user = await user.save()
                 console.log("User has been saved")
                 
                 //control session or in this case, send response and allow access.
                 res.status(200).send({
                     payload:{
-                        name:user.name,
-                        passport:user.passport
+                        identity:user.identity,
+                        passport:user.passport,
+                        auth:user.auth
                     },
                     allow: true
                 })
@@ -52,7 +55,7 @@ router.post('/', async (req,res)=>{
 router.post('/login', async (req,res, next)=>{
     let user = await User.findOne({passport: req.body.id})
     if(user == null){
-        user = await User.findOne({name: req.body.id})
+        user = await User.findOne({identity: req.body.id})
     }
    
     if(user==null){
@@ -64,8 +67,9 @@ router.post('/login', async (req,res, next)=>{
             console.log("found user")
             res.status(200).send({
                 payload:{
-                    name:user.name,
-                    passport:user.passport
+                    identity:user.identity,
+                    passport:user.passport,
+                    auth:user.auth
                 }, 
                 allow: true
             })
