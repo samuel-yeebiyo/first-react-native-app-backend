@@ -17,11 +17,12 @@ mong.connect(process.env.connection_key, {useNewUrlParser: true, userUnifiedTopo
 //route configurations
 const userRouter = require('./routes/users');
 const adminRouter = require('./routes/admins')
-const loginRouter = require('./routes/loginRouter')
+const healthRouter = require('./routes/healthRouter')
 
 //server routes
 app.use('/users', userRouter);
 app.use('/admins', adminRouter);
+app.use('/healthcare', healthRouter);
 
 app.listen(3000, ()=>{
     console.log("Server listening on port 300...")
