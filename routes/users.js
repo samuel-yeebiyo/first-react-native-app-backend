@@ -5,9 +5,11 @@ const bcrypt = require('bcrypt');
 
 
 const User = require('../models/user');
+const {Status} = require('../models/status')
 
 
 
+//register users
 router.post('/', async (req,res)=>{
     console.log("Called post to users")
 
@@ -54,6 +56,7 @@ router.post('/', async (req,res)=>{
 
 })
 
+//login with user
 router.post('/login', async (req,res, next)=>{
     let user = await User.findOne({passport: req.body.id})
     if(user == null){
@@ -80,6 +83,34 @@ router.post('/login', async (req,res, next)=>{
         }
     }catch(e){
         res.status(500).send();
+    }
+})
+
+//get all users
+router.get('/all', async(req,res,next)=>{
+    console.log("Getting all users")
+    let users = await User.find({auth:'BASIC'})
+    console.log("Fetched all users and status")
+    console.log(users)
+
+    let payload = []
+    users.map(async(item)=>{
+        
+        let date = item.date_joined.toString()
+        let user = {
+            name:item.identity,
+            passport:item.passport,
+            date:date,
+        }
+        payload = [...payload, user]
+    })
+    
+    try{
+        res.status(200).send({
+            users:payload
+        })
+    }catch(e){
+        res.status(500).send()
     }
 })
 
