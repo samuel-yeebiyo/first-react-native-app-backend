@@ -21,18 +21,11 @@ router.post('/hospital/add', async (req,res)=>{
             //save user to database
             try{
                 console.log("Trying to save..")
-                user = await hospital.save()
+                await hospital.save()
                 console.log("hospital has been saved")
                 
                 //control session or in this case, send response and allow access.
-                res.status(200).send({
-                    payload:{
-                        identity:user.identity,
-                        passport:user.passport,
-                        auth:user.auth
-                    },
-                    allow: true
-                })
+                res.status(200).send({})
             }catch(e){
                 console.log("Problem encountered")
             }
@@ -173,15 +166,11 @@ router.post('/book', async(req,res,next)=>{
             });
             console.log("Created avail");
 
-
-
-
             let doctor = new Doctor({
                 name:req.body.doctor.name,
                 availability:[avail]
             })
             console.log("Created doctor");
-
 
             let vaccine = new Vaccine({
                 name:req.body.vaccine.name,
@@ -356,8 +345,6 @@ router.post('/doctor/add', async (req,res, next)=>{
     let exist = await Doctor.findOne({name: req.body.name})
     if(exist == null){
         try{
-            
-
             //Create a range
             let avails = []
 
